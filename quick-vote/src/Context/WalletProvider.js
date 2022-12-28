@@ -5,6 +5,7 @@ export const WalletContext = createContext({
     provider: undefined,
     signer: undefined,
     address: undefined,
+    user: undefined,
     connectWallet: async () => undefined,
     disconnectWallet: async () => undefined
 });
@@ -13,6 +14,7 @@ export const WalletProvider = ({ children }) => {
     const [provider, setProvider] = useState();
     const [signer, setSigner] = useState();
     const [address, setAddress] = useState();
+    const [user, setUser] = useState();
 
     if (!window.ethereum) {
         console.log("There is no ethereum object found");
@@ -50,6 +52,7 @@ export const WalletProvider = ({ children }) => {
                 address: address,
                 provider: provider,
                 signer: signer,
+                user: user,
                 connectWallet: connectWallet,
                 disconnectWallet: disconnectWallet
             }}>

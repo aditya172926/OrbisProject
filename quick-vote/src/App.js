@@ -3,6 +3,7 @@ import './App.css';
 import { useContext } from 'react';
 import { WalletContext } from './Context/WalletProvider';
 import useOrbisClient from './hooks/useOrbisClient';
+import FeedList from './Components/FeedList';
 
 function App() {
   const walletContext = useContext(WalletContext);
@@ -10,15 +11,7 @@ function App() {
 
   return (
     <>
-      {walletContext.address ? (
-        <>
-          <p>connected to wallet</p>
-          <button onClick={() => hookOrbisClient.connectOrbis()}>Connect Orbis</button>
-        </>
-      ) : (<>
-        <p>not connected to wallet</p>
-        <button onClick={() => walletContext.connectWallet()}>Connect Wallet</button>
-      </>)}
+      <FeedList />
     </>
   );
 }
