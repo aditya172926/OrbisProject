@@ -1,5 +1,6 @@
 import logo from './logo.svg';
 import './App.css';
+import bootstrap from 'bootstrap';
 import { useContext } from 'react';
 import { WalletContext } from './Context/WalletProvider';
 import useOrbisClient from './hooks/useOrbisClient';
