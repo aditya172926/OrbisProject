@@ -1,9 +1,10 @@
 import { Orbis } from "@orbisclub/orbis-sdk";
-import { useState } from "react";
+import { useContext, useState } from "react";
+import { WalletContext } from "../Context/WalletProvider";
 
 const useOrbisClient = () => {
     const orbis = new Orbis();
-
+    const walletContext = useContext(WalletContext);
     const [user, setUser] = useState();
 
     const connectOrbis = async () => {
@@ -34,13 +35,27 @@ const useOrbisClient = () => {
 
     const disconnectOrbis = async () => {
         let res = await orbis.logout();
+        console.log("Orbis disconnected ", res);
+    }
 
+    const getUserGroups = async() => {
+        let {data, error} = await orbis.getDids(walletContext.address);
+        if (data) {
+            console.log("Current user's did", data);
+            // fetching the user groups
+        } else if (error) {
+            console.log("Error in fetching user did ", error);
+            return;
+        }
+        // let groups = await orbis.getProfileGroups(data.did)
+        // console.log("The groups belonging to user ", groups);
     }
 
     return {
         user: user,
         connectOrbis: connectOrbis,
-        disconnectOrbis: disconnectOrbis
+        disconnectOrbis: disconnectOrbis,
+        getUserGroups: getUserGroups
     }
 }
 export default useOrbisClient;
