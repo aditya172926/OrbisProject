@@ -1,11 +1,13 @@
 import { Orbis } from "@orbisclub/orbis-sdk";
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { WalletContext } from "../Context/WalletProvider";
 
 const useOrbisClient = () => {
     const orbis = new Orbis();
     const walletContext = useContext(WalletContext);
+
     const [user, setUser] = useState();
+    const [userGroups, setUserGroups] = useState([]);
 
     const connectOrbis = async () => {
         let res = await orbis.isConnected();
@@ -47,9 +49,25 @@ const useOrbisClient = () => {
             console.log("Error in fetching user did ", error);
             return;
         }
-        // let groups = await orbis.getProfileGroups(data.did)
-        // console.log("The groups belonging to user ", groups);
+        let groups = await orbis.getProfileGroups(data.did)
+        console.log("The groups belonging to user ", groups);
+        if (groups.data) {
+            if (groups.data.length > 0)
+                setUserGroups(groups.data)
+            else {
+                console.log("The user has no associated groups");
+                return;
+            }
+        } else {
+            console.log("An error has occured in getUserGroups ", error);
+        }
     }
+
+    useEffect(() => {
+        if (walletContext.address) {
+            connectOrbis();
+        }
+    }, [walletContext.address]);
 
     return {
         user: user,

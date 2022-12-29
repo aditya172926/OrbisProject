@@ -1,4 +1,4 @@
-import { useContext } from "react";
+import { useContext, useEffect } from "react";
 import { WalletContext } from "../Context/WalletProvider";
 import FeedPost from "./FeedPost";
 
