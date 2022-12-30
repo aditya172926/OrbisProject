@@ -1,15 +1,18 @@
 import "../css/FeedPost.css";
 import useOrbisClient from "../../hooks/useOrbisClient";
+import { useRef } from "react";
 
 const FeedPost = (props) => {
   const hookOrbisClient = useOrbisClient();
+
+  const textRef = useRef();
 
   return (
     <>
       <div className="mt-5 feedArea">
         <nav className="navbar bg-light">
           <div className="container-fluid">
-            <a className="navbar-brand">QuickVote</a>
+            <a className="navbar-brand">QV</a>
             {hookOrbisClient.user ? (
               <button
                 class="btn btn-outline-primary"
@@ -42,6 +45,23 @@ const FeedPost = (props) => {
             </button>
           )}
           <p>The connect wallet is {props.address}</p>
+
+          <div class="input-group mb-3">
+            <input
+              type="text"
+              class="form-control"
+              placeholder="Write your Post"
+              aria-label="Write your Post"
+              aria-describedby="button-post"
+            />
+            <button
+              class="btn btn-outline-primary"
+              type="button"
+              id="button-post"
+            >
+              Post
+            </button>
+          </div>
         </div>
       </div>
     </>

@@ -67,11 +67,23 @@ const useOrbisClient = () => {
         }
     }
 
-    // useEffect(() => {
-    //     if (walletContext.address) {
-    //         connectOrbis();
-    //     }
-    // }, [walletContext.address]);
+    const setUpGroup = async(name, description, pfp='') => {
+        let content = {
+            pfp: pfp,
+            name: name,
+            description: description
+        }
+        let res = await orbis.createGroup(content)
+        if (res.status == 200) {
+            console.log("The group was created ", res);
+            // after the group is created, we have to create a default channel init
+            // let defaultChannel = await orbis.createChannel()
+        }
+    }
+
+    const sendFeedPost = async() => {
+        let res = await orbis.createPost({body: 'gm'});
+    }
 
     return {
         user: user,
