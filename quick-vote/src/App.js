@@ -3,7 +3,7 @@ import './App.css';
 import { useContext } from 'react';
 import { WalletContext } from './Context/WalletProvider';
 import useOrbisClient from './hooks/useOrbisClient';
-import FeedList from './Components/FeedList';
+import FeedList from './Components/js/FeedList';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 function App() {

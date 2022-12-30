@@ -1,5 +1,5 @@
 import { useContext, useEffect } from "react";
-import { WalletContext } from "../Context/WalletProvider";
+import { WalletContext } from "../../Context/WalletProvider";
 import FeedPost from "./FeedPost";
 
 // this is our main component
