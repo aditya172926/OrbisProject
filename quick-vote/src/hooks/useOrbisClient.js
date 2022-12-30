@@ -11,8 +11,11 @@ const useOrbisClient = () => {
 
     const connectOrbis = async () => {
         let res = await orbis.isConnected();
+        console.log("Connected to orbis ", res);
         if (res.status == 200) {
             setUser(res.did);
+            console.log("The user is already connected");
+            return;
         } else {
             try {
                 const options = {
@@ -38,6 +41,7 @@ const useOrbisClient = () => {
     const disconnectOrbis = async () => {
         let res = await orbis.logout();
         console.log("Orbis disconnected ", res);
+        setUser(null)
     }
 
     const getUserGroups = async() => {
@@ -63,11 +67,11 @@ const useOrbisClient = () => {
         }
     }
 
-    useEffect(() => {
-        if (walletContext.address) {
-            connectOrbis();
-        }
-    }, [walletContext.address]);
+    // useEffect(() => {
+    //     if (walletContext.address) {
+    //         connectOrbis();
+    //     }
+    // }, [walletContext.address]);
 
     return {
         user: user,
