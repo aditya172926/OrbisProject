@@ -9,8 +9,9 @@ const useOrbisClient = () => {
 
   const [user, setUser] = useState();
   const [userGroups, setUserGroups] = useState([]);
-  const [groupChannels, setGroupChannels] = useState([]);
   const [isOrbisLoading, setIsOrbisLoading] = useState();
+  const [selectedGroupData, setSelectedGroupData] = useState();
+
 
   const connectOrbis = async () => {
       try {
@@ -98,7 +99,7 @@ const useOrbisClient = () => {
     let {data, error} = await orbis.getGroup(groupId);
     if (data) {
         console.log("Got the selected group", data);
-        setGroupChannels(data.channels);
+        setSelectedGroupData({...data, group_id: groupId});
     } else if (error) {
         console.log("Some error occured while fetching the Channels");
     }
@@ -115,10 +116,11 @@ const useOrbisClient = () => {
       return;
     }
     let group = await orbis.getGroup(groupId);
-    if (user != group?.creator) {
-      console.log("You are not the creator of this group");
-      return;
-    }
+    console.log("The concern group is ", group);
+    // if (user != group?.creator) {
+    //   console.log("You are not the creator of this group");
+    //   return;
+    // }
     // after the group is created, we have to create a default channel init
     let newChannel = await orbis.createChannel(groupId, {
       group_id: groupId,
@@ -147,7 +149,7 @@ const useOrbisClient = () => {
     setUpChannel: setUpChannel,
     userGroups: userGroups,
     getSelectedGroupData: getSelectedGroupData,
-    groupChannels: groupChannels
+    selectedGroupData: selectedGroupData
   };
 };
 export default useOrbisClient;

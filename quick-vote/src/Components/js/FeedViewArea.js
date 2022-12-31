@@ -7,8 +7,6 @@ const FeedViewArea = (props) => {
   const channelName = useRef();
   const channelDescription = useRef();
 
-  const [selectedGroup, setSelectedGroup] = useState();
-
   const setupGroupModal = () => {
     return (
       <div
@@ -100,7 +98,8 @@ const FeedViewArea = (props) => {
           <div className="modal-content">
             <div className="modal-header">
               <h1 className="modal-title fs-5" id="channelSetupLabel">
-                Setup Channel
+                Setup Channel in{" "}
+                {props.hookOrbisClient.selectedGroupData?.content?.name}
               </h1>
               <button
                 type="button"
@@ -113,7 +112,7 @@ const FeedViewArea = (props) => {
               <div className="text-start">
                 <div className="mb-3">
                   <label htmlFor="channelName" className="form-label">
-                    Name
+                    Channel Name
                   </label>
                   <input
                     type="text"
@@ -144,7 +143,18 @@ const FeedViewArea = (props) => {
               >
                 Close
               </button>
-              <button type="button" className="btn btn-primary">
+              <button
+                type="button"
+                className="btn btn-primary"
+                onClick={() =>
+                  props.hookOrbisClient.setUpChannel(
+                    props.hookOrbisClient.selectedGroupData?.group_id,
+                    channelName.current?.value,
+                    "feed",
+                    channelDescription.current?.value
+                  )
+                }
+              >
                 Create Channel
               </button>
             </div>
@@ -161,11 +171,12 @@ const FeedViewArea = (props) => {
           {props.hookOrbisClient.user ? (
             <>
               <div className="text-center channelPosts">
-                {props.hookOrbisClient.groupChannels.length > 0 ? (
+                {props.hookOrbisClient.selectedGroupData?.channels.length >
+                0 ? (
                   <>
-                    {props.hookOrbisClient.groupChannels.map(
+                    {props.hookOrbisClient.selectedGroupData?.channels.map(
                       (channel, index) => {
-                        <p key={index}>{channel.name}</p>;
+                        return <p key={index}>{channel?.content?.name}</p>;
                       }
                     )}
                   </>
@@ -174,14 +185,13 @@ const FeedViewArea = (props) => {
                     <p>Create your first channel here</p>
                     <button
                       className="btn btn-primary"
-                      onClick={() =>
-                        props.hookOrbisClient.setUpChannel(
-                          selectedGroup?.group_id
-                        )
-                      }
+                      type="button"
+                      data-bs-toggle="modal"
+                      data-bs-target="#channelSetup"
                     >
                       Create Channel
                     </button>
+                    {setupChannelModal()}
                   </>
                 )}
               </div>
@@ -197,7 +207,6 @@ const FeedViewArea = (props) => {
                           props.hookOrbisClient.getSelectedGroupData(
                             group?.group_id
                           );
-                          setSelectedGroup(group);
                         }}
                       >
                         {group?.group_details?.name}
