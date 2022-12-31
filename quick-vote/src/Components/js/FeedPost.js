@@ -38,9 +38,11 @@ const FeedPost = (props) => {
           </div>
         ) : (
           <FeedViewArea
-            user={hookOrbisClient.user}
-            getUserGroups={hookOrbisClient.getUserGroups}
-            userGroups={hookOrbisClient.userGroups}
+          hookOrbisClient={hookOrbisClient}
+            // user={hookOrbisClient.user}
+            // getUserGroups={hookOrbisClient.getUserGroups}
+            // userGroups={hookOrbisClient.userGroups}
+            // setUpGroup={hookOrbisClient.setUpGroup()}
           />
         )}
       </div>

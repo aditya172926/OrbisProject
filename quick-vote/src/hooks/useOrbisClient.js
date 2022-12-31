@@ -8,6 +8,8 @@ const useOrbisClient = () => {
 
   const [user, setUser] = useState();
   const [userGroups, setUserGroups] = useState([]);
+  const [groupChannels, setGroupChannels] = useState([]);
+  const [isOrbisLoading, setIsOrbisLoading] = useState();
 
   const connectOrbis = async () => {
       try {
@@ -87,15 +89,29 @@ const useOrbisClient = () => {
     let content = {
       pfp: pfp,
       name: name,
-      description: description,
+      description: description
     };
-    let res = await orbis.createGroup(content);
+    let res = await orbis.createGroup({
+      name: name,
+      description: description
+    });
     if (res.status == 200) {
+      console.log("Group data ", res);
       console.log("New Group Created");
     } else {
       console.log("Some error occured ", res);
     }
   };
+
+  const getSelectedGroupData = async(groupId) => {
+    let {data, error} = await orbis.getGroup(groupId);
+    if (data) {
+        console.log("Got the selected group");
+        setGroupChannels(data.channels);
+    } else if (error) {
+        console.log("Some error occured while fetching the Channels");
+    }
+  }
 
   const setUpChannel = async (
     groupId,
@@ -138,7 +154,8 @@ const useOrbisClient = () => {
     getUserGroups: getUserGroups,
     setUpGroup: setUpGroup,
     setUpChannel: setUpChannel,
-    userGroups: userGroups
+    userGroups: userGroups,
+    getSelectedGroupData: getSelectedGroupData
   };
 };
 export default useOrbisClient;
