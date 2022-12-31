@@ -69,12 +69,11 @@ const useOrbisClient = () => {
       if (groups.data.length > 0) setUserGroups(groups.data);
       else {
         console.log("The user has no associated groups");
-        walletContext.setIsLoading(false);
-        return;
       }
     } else {
       console.log("An error has occured in getUserGroups ", groups.error);
     }
+    walletContext.setIsLoading(false);
   };
 
   const setUpGroup = async (name, description, pfp = "") => {
