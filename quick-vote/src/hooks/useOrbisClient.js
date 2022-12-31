@@ -2,8 +2,9 @@ import { Orbis } from "@orbisclub/orbis-sdk";
 import { useContext, useEffect, useState } from "react";
 import { WalletContext } from "../Context/WalletProvider";
 
+const orbis = new Orbis();
+
 const useOrbisClient = () => {
-  const orbis = new Orbis();
   const walletContext = useContext(WalletContext);
 
   const [user, setUser] = useState();
@@ -62,16 +63,7 @@ const useOrbisClient = () => {
   };
 
   const getUserGroups = async () => {
-    let { data, error } = await orbis.getDids(walletContext.address);
-    if (data) {
-      console.log("Current user's did", data);
-      // fetching the user groups
-    } else if (error) {
-      console.log("Error in fetching user did ", error);
-      walletContext.setIsLoading(false);
-      return;
-    }
-    let groups = await orbis.getProfileGroups(data.did);
+    let groups = await orbis.getProfileGroups(user);
     console.log("The groups belonging to user ", groups);
     if (groups.data) {
       if (groups.data.length > 0) setUserGroups(groups.data);
@@ -81,7 +73,7 @@ const useOrbisClient = () => {
         return;
       }
     } else {
-      console.log("An error has occured in getUserGroups ", error);
+      console.log("An error has occured in getUserGroups ", groups.error);
     }
   };
 
