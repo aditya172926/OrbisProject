@@ -97,7 +97,7 @@ const useOrbisClient = () => {
   const getSelectedGroupData = async(groupId) => {
     let {data, error} = await orbis.getGroup(groupId);
     if (data) {
-        console.log("Got the selected group");
+        console.log("Got the selected group", data);
         setGroupChannels(data.channels);
     } else if (error) {
         console.log("Some error occured while fetching the Channels");
@@ -146,7 +146,8 @@ const useOrbisClient = () => {
     setUpGroup: setUpGroup,
     setUpChannel: setUpChannel,
     userGroups: userGroups,
-    getSelectedGroupData: getSelectedGroupData
+    getSelectedGroupData: getSelectedGroupData,
+    groupChannels: groupChannels
   };
 };
 export default useOrbisClient;

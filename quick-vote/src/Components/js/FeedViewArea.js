@@ -1,10 +1,13 @@
-import { useRef } from "react";
+import { useRef, useState } from "react";
+import "../css/FeedViewArea.css";
 
 const FeedViewArea = (props) => {
   const groupName = useRef();
   const groupDescription = useRef();
   const channelName = useRef();
   const channelDescription = useRef();
+
+  const [selectedGroup, setSelectedGroup] = useState();
 
   const setupGroupModal = () => {
     return (
@@ -67,10 +70,12 @@ const FeedViewArea = (props) => {
               <button
                 type="button"
                 className="btn btn-primary"
-                onClick={() => props.hookOrbisClient.setUpGroup(
-                  groupName.current?.value,
-                  groupDescription.current?.value
-                )}
+                onClick={() =>
+                  props.hookOrbisClient.setUpGroup(
+                    groupName.current?.value,
+                    groupDescription.current?.value
+                  )
+                }
               >
                 Create Group
               </button>
@@ -152,16 +157,59 @@ const FeedViewArea = (props) => {
   return (
     <div className="my-3">
       {props.hookOrbisClient.userGroups.length > 0 ? (
-        <div className="p-3 feedPosts">
+        <div className="px-3 feedPosts">
           {props.hookOrbisClient.user ? (
             <>
-              <button className="btn btn-primary" onClick={props.hookOrbisClient.getUserGroups}>
-                Get User groups
-              </button>
+              <div className="text-center channelPosts">
+                {props.hookOrbisClient.groupChannels.length > 0 ? (
+                  <>
+                    {props.hookOrbisClient.groupChannels.map(
+                      (channel, index) => {
+                        <p key={index}>{channel.name}</p>;
+                      }
+                    )}
+                  </>
+                ) : (
+                  <>
+                    <p>Create your first channel here</p>
+                    <button
+                      className="btn btn-primary"
+                      onClick={() =>
+                        props.hookOrbisClient.setUpChannel(
+                          selectedGroup?.group_id
+                        )
+                      }
+                    >
+                      Create Channel
+                    </button>
+                  </>
+                )}
+              </div>
+              {/* display the user groups here */}
+              <div className="groupXButtons">
+                {props.hookOrbisClient.userGroups.map((group, index) => {
+                  return (
+                    <>
+                      <button
+                        key={index}
+                        className="btn btn-primary groupButton mx-2"
+                        onClick={() => {
+                          props.hookOrbisClient.getSelectedGroupData(
+                            group?.group_id
+                          );
+                          setSelectedGroup(group);
+                        }}
+                      >
+                        {group?.group_details?.name}
+                      </button>
+                    </>
+                  );
+                })}
+              </div>
             </>
           ) : (
             <>
-              <p>The user is not Connected to orbis client</p>
+              <p>Login to connect to Orbis</p>
             </>
           )}
 
