@@ -7,7 +7,9 @@ export const WalletContext = createContext({
     address: undefined,
     user: undefined,
     connectWallet: async () => undefined,
-    disconnectWallet: async () => undefined
+    disconnectWallet: async () => undefined,
+    setIsLoading: (params) => undefined,
+    isLoading: undefined
 });
 
 export const WalletProvider = ({ children }) => {
@@ -15,6 +17,7 @@ export const WalletProvider = ({ children }) => {
     const [signer, setSigner] = useState();
     const [address, setAddress] = useState();
     const [user, setUser] = useState();
+    const [isLoading, setIsLoading] = useState();
 
     if (!window.ethereum) {
         console.log("There is no ethereum object found");
@@ -22,6 +25,7 @@ export const WalletProvider = ({ children }) => {
     }
 
     const connectWallet = async () => {
+        setIsLoading(true);
         try {
             const { ethereum } = window;
             if (ethereum) {
@@ -40,6 +44,14 @@ export const WalletProvider = ({ children }) => {
         }
     }
 
+    // useEffect(() => {
+    //     // check if wallet is already connected
+    //     if (window.ethereum) {
+    //         let provider = new ethers.providers.Web3Provider(window.ethereum);
+    //         setProvider(provider);
+    //     }
+    // }, [])
+
     const disconnectWallet = async () => {
         setProvider(null);
         setSigner(null);
@@ -54,7 +66,9 @@ export const WalletProvider = ({ children }) => {
                 signer: signer,
                 user: user,
                 connectWallet: connectWallet,
-                disconnectWallet: disconnectWallet
+                disconnectWallet: disconnectWallet,
+                setIsLoading: setIsLoading,
+                isLoading: isLoading
             }}>
             {children}
         </WalletContext.Provider>
