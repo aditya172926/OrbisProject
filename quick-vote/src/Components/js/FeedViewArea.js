@@ -165,7 +165,7 @@ const FeedViewArea = (props) => {
   };
 
   return (
-    <div className="my-3">
+    <div className="my-3 position-relative feedPostsArea">
       {props.hookOrbisClient.userGroups.length > 0 ? (
         <div className="px-3 feedPosts">
           {props.hookOrbisClient.user ? (
@@ -222,7 +222,7 @@ const FeedViewArea = (props) => {
             </>
           )}
 
-          <div className="input-group mb-3">
+          <div className="input-group mb-3 position-absolute bottom-0">
             <input
               type="text"
               className="form-control"
