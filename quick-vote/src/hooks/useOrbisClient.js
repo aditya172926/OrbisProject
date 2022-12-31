@@ -45,8 +45,13 @@ const useOrbisClient = () => {
         checkConnectionToOrbis();
         console.log("checkin done");
     }
-    walletContext.setIsLoading(false);
   }, [walletContext.address]);
+
+  useEffect(() => {
+    if (user) {
+        getUserGroups();
+    }
+  }, [user]);
 
   const disconnectOrbis = async () => {
     let res = await orbis.logout();
@@ -61,6 +66,7 @@ const useOrbisClient = () => {
       // fetching the user groups
     } else if (error) {
       console.log("Error in fetching user did ", error);
+      walletContext.setIsLoading(false);
       return;
     }
     let groups = await orbis.getProfileGroups(data.did);
@@ -69,6 +75,7 @@ const useOrbisClient = () => {
       if (groups.data.length > 0) setUserGroups(groups.data);
       else {
         console.log("The user has no associated groups");
+        walletContext.setIsLoading(false);
         return;
       }
     } else {
@@ -131,6 +138,7 @@ const useOrbisClient = () => {
     getUserGroups: getUserGroups,
     setUpGroup: setUpGroup,
     setUpChannel: setUpChannel,
+    userGroups: userGroups
   };
 };
 export default useOrbisClient;

@@ -1,13 +1,12 @@
-import "../css/FeedPost.css";
-import useOrbisClient from "../../hooks/useOrbisClient";
-import { useRef, useContext } from "react";
+import { useContext } from "react";
 import { WalletContext } from "../../Context/WalletProvider";
+import useOrbisClient from "../../hooks/useOrbisClient";
+import "../css/FeedPost.css";
+import FeedViewArea from "./FeedViewArea";
 
 const FeedPost = (props) => {
-  const hookOrbisClient = useOrbisClient();
   const walletContext = useContext(WalletContext);
-
-  const textRef = useRef();
+  const hookOrbisClient = useOrbisClient();
 
   return (
     <>
@@ -34,41 +33,15 @@ const FeedPost = (props) => {
         </nav>
 
         {walletContext.isLoading ? (
-          <p>Loading ...</p>
-        ) : (
-          <div className="p-3 feedPosts">
-            {hookOrbisClient.user ? (
-              <>
-                <button
-                  className="btn btn-primary"
-                  onClick={hookOrbisClient.getUserGroups}
-                >
-                  Get User groups
-                </button>
-              </>
-            ) : (
-              <>
-                <p>The user is not Connected to orbis client</p>
-              </>
-            )}
-
-            <div className="input-group mb-3">
-              <input
-                type="text"
-                className="form-control"
-                placeholder="Write your Post"
-                aria-label="Write your Post"
-                aria-describedby="button-post"
-              />
-              <button
-                className="btn btn-outline-primary"
-                type="button"
-                id="button-post"
-              >
-                Post
-              </button>
-            </div>
+          <div className="spinner-border text-primary" role="status">
+            <span className="visually-hidden">Loading...</span>
           </div>
+        ) : (
+          <FeedViewArea
+            user={hookOrbisClient.user}
+            getUserGroups={hookOrbisClient.getUserGroups}
+            userGroups={hookOrbisClient.userGroups}
+          />
         )}
       </div>
     </>

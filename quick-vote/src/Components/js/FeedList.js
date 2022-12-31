@@ -11,7 +11,7 @@ const FeedList = () => {
       {walletContext.address ? (
         <FeedPost address={walletContext.address} />
       ) : (
-        <div className="container mt-5">
+        <div className="container text-center mt-5">
           <button
             className="btn btn-primary"
             onClick={walletContext.connectWallet}
