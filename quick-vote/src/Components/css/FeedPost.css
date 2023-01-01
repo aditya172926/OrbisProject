@@ -5,10 +5,7 @@
 .wrapper {
   width: 100%;
 }
-#side-nav {
-  overflow-y: scroll;
-}
+
 #content-wrapper {
   padding: 0 30px;
-  overflow-y: scroll;
 }

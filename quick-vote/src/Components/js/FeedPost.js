@@ -10,8 +10,8 @@ import SidePanel from "./SidePanel";
 const FeedPost = (props) => {
   const walletContext = useContext(WalletContext);
   const hookOrbisClient = useOrbisClient();
+  const [selectedChannel, setSelectedChannel] = useState();
 
-  const [sidebarOpen, setSidebarOpen] = useState(false);
   const groupName = useRef();
   const groupDescription = useRef();
 
@@ -92,9 +92,6 @@ const FeedPost = (props) => {
     );
   };
 
-  const handleViewSidebar = () => {
-    setSidebarOpen(!sidebarOpen);
-  };
 
   return (
     <>
@@ -112,12 +109,6 @@ const FeedPost = (props) => {
             </button>
             <a className="navbar-brand">QV</a>
             {hookOrbisClient.user ? (
-              // <button
-              //   className="btn btn-outline-primary"
-              //   onClick={hookOrbisClient.disconnectOrbis}
-              // >
-              //   Logout
-              // </button>
               <>
                 <div class="dropstart">
                   <a
@@ -182,10 +173,10 @@ const FeedPost = (props) => {
         ) : (
           <div className="row" id="wrapper">
             <div className="col-3" id="side-nav">
-              <ChannelList hookOrbisClient={hookOrbisClient} />
+              <ChannelList hookOrbisClient={hookOrbisClient} setSelectedChannel={setSelectedChannel} />
             </div>
             <div className="col-9" id="content-wrapper">
-              <FeedViewArea hookOrbisClient={hookOrbisClient} />
+              <FeedViewArea hookOrbisClient={hookOrbisClient} selectedChannel={selectedChannel} />
             </div>
           </div>
         )}

@@ -1,9 +1,8 @@
-import { useRef, useState } from "react";
+import { useRef } from "react";
 import "../css/FeedViewArea.css";
 
 const FeedViewArea = (props) => {
-
-  
+  const postRef = useRef();
 
   return (
     <div className="my-3 position-relative feedPostsArea">
@@ -26,11 +25,15 @@ const FeedViewArea = (props) => {
               placeholder="Write your Post"
               aria-label="Write your Post"
               aria-describedby="button-post"
+              ref={postRef}
             />
             <button
               className="btn btn-outline-primary"
               type="button"
               id="button-post"
+              onClick={() => {
+                props.hookOrbisClient.sendFeedPost(postRef.current?.value, props.selectedChannel?.content.group_id)
+              }}
             >
               Post
             </button>

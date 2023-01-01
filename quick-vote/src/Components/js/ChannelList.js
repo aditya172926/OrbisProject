@@ -98,6 +98,7 @@ const ChannelList = (props) => {
                       <div class="d-grid gap-2">
                         <button
                           className="btn btn-primary"
+                          onClick={() => props.setSelectedChannel(channel)}
                         >
                           {channel?.content?.name}
                         </button>

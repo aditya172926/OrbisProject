@@ -136,8 +136,20 @@ const useOrbisClient = () => {
     console.log("Default channel created");
   };
 
-  const sendFeedPost = async () => {
-    let res = await orbis.createPost({ body: "gm" });
+  const sendFeedPost = async (postBody, channelIdContext, encryption=false, encryptionRules={}) => {
+    let content = {
+      body: postBody,
+      context: channelIdContext
+    }
+    if (encryption == true) {
+      content = {...content, encryptionRules: encryptionRules}
+    }
+    let res = await orbis.createPost(content);
+    if (res.status == 200) {
+      console.log("Create post successful", res);
+    } else {
+      console.log("Error in creating posts");
+    }
   };
 
   return {
@@ -149,7 +161,8 @@ const useOrbisClient = () => {
     setUpChannel: setUpChannel,
     userGroups: userGroups,
     getSelectedGroupData: getSelectedGroupData,
-    selectedGroupData: selectedGroupData
+    selectedGroupData: selectedGroupData,
+    sendFeedPost: sendFeedPost
   };
 };
 export default useOrbisClient;
