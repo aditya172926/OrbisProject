@@ -1,8 +1,17 @@
-import { useRef } from "react";
+import { useRef, useState } from "react";
 import "../css/FeedViewArea.css";
 
 const FeedViewArea = (props) => {
   const postRef = useRef();
+  const [buttonFunction, setButtonFunction] = useState("Post");
+
+  const handleButtonFunction = () => {
+    if (buttonFunction == "Post") {
+      props.hookOrbisClient.sendFeedPost(postRef.current?.value, props.selectedChannel?.content.group_id);
+    } else if (buttonFunction == "Vote") {
+      console.log("This is a voting call");
+    }
+  }
 
   return (
     <div className="my-3 position-relative feedPostsArea">
@@ -10,7 +19,7 @@ const FeedViewArea = (props) => {
         <div className="px-3 feedPosts">
           {props.hookOrbisClient.user ? (
             <>
-              <p>Posts</p>           
+              <p>Posts</p>
             </>
           ) : (
             <>
@@ -27,7 +36,7 @@ const FeedViewArea = (props) => {
               aria-describedby="button-post"
               ref={postRef}
             />
-            <button
+            {/* <button
               className="btn btn-outline-primary"
               type="button"
               id="button-post"
@@ -36,13 +45,41 @@ const FeedViewArea = (props) => {
               }}
             >
               Post
-            </button>
+            </button> */}
+            <div className="btn-group dropstart">
+              <button
+                type="button"
+                className="btn btn-secondary dropdown-toggle dropdown-toggle-split"
+                data-bs-toggle="dropdown"
+                aria-expanded="false"
+              >
+                <span className="visually-hidden">Toggle Dropstart</span>
+              </button>
+              <ul className="dropdown-menu">
+                <li>
+                  <a className="dropdown-item" href="#" onClick={() => setButtonFunction("Vote")}>
+                    Vote
+                  </a>
+                </li>
+                <li>
+                  <a className="dropdown-item" href="#" onClick={() => setButtonFunction("Post")}>
+                    Post
+                  </a>
+                </li>
+              </ul>
+              <button
+                type="button"
+                className="btn btn-outline-primary"
+                id="button-post"
+                onClick={() => handleButtonFunction()}
+              >
+                {buttonFunction}
+              </button>
+            </div>
           </div>
         </div>
       ) : (
-        <>
-          
-        </>
+        <></>
       )}
     </div>
   );

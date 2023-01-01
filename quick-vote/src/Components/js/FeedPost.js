@@ -99,7 +99,7 @@ const FeedPost = (props) => {
         <nav className="navbar bg-light">
           <div className="container-fluid">
             <button
-              class="btn btn-primary"
+              className="btn btn-primary"
               type="button"
               data-bs-toggle="offcanvas"
               data-bs-target="#offcanvasExample"
@@ -110,9 +110,9 @@ const FeedPost = (props) => {
             <a className="navbar-brand">QV</a>
             {hookOrbisClient.user ? (
               <>
-                <div class="dropstart">
+                <div className="dropstart">
                   <a
-                    class="btn btn-primary-outline dropdown-toggle"
+                    className="btn btn-primary-outline dropdown-toggle"
                     href="#"
                     role="button"
                     data-bs-toggle="dropdown"
@@ -121,15 +121,15 @@ const FeedPost = (props) => {
                     More
                   </a>
 
-                  <ul class="dropdown-menu">
+                  <ul className="dropdown-menu">
                     <li>
-                      <a class="dropdown-item" href="#">
+                      <a className="dropdown-item" href="#">
                         Action
                       </a>
                     </li>
                     <li>
                       <a
-                        class="dropdown-item btn btn-primary-outline"
+                        className="dropdown-item btn btn-primary-outline"
                         href="#"
                         role="button"
                         data-bs-toggle="modal"
@@ -140,7 +140,7 @@ const FeedPost = (props) => {
                     </li>
                     <li>
                       <a
-                        class="dropdown-item"
+                        className="dropdown-item"
                         href="#"
                         onClick={hookOrbisClient.disconnectOrbis}
                       >

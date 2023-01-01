@@ -5,29 +5,29 @@ const SidePanel = (props) => {
   return (
     <>
       <div
-        class="offcanvas offcanvas-start"
+        className="offcanvas offcanvas-start"
         tabindex="-1"
         id="offcanvasExample"
         aria-labelledby="offcanvasExampleLabel"
       >
-        <div class="offcanvas-header">
-          <h5 class="offcanvas-title" id="offcanvasExampleLabel">
+        <div className="offcanvas-header">
+          <h5 className="offcanvas-title" id="offcanvasExampleLabel">
             Groups
           </h5>
           <button
             type="button"
-            class="btn-close"
+            className="btn-close"
             data-bs-dismiss="offcanvas"
             aria-label="Close"
           ></button>
         </div>
-        <div class="offcanvas-body position-relative">
-          <ul class="list-group">
+        <div className="offcanvas-body position-relative">
+          <ul className="list-group">
             {props.hookOrbisClient.userGroups.map((group, index) => {
               return (
                 <>
-                  <li class="list-group-item">
-                    <div class="d-grid gap-2">
+                  <li className="list-group-item">
+                    <div className="d-grid gap-2">
                       <button
                         key={index}
                         className="btn btn-primary groupButton mx-2"

@@ -89,13 +89,13 @@ const ChannelList = (props) => {
       <div className="text-center channelPosts">
         {props.hookOrbisClient.selectedGroupData?.channels.length > 0 ? (
           <>
-            <ul class="list-group">
+            <ul className="list-group">
               {props.hookOrbisClient.selectedGroupData?.channels.map(
                 (channel, index) => {
                   // return <p key={index}>{channel?.content?.name}</p>;
                   return (
-                    <li key={index} class="list-group-item">
-                      <div class="d-grid gap-2">
+                    <li key={index} className="list-group-item">
+                      <div className="d-grid gap-2">
                         <button
                           className="btn btn-primary"
                           onClick={() => props.setSelectedChannel(channel)}
