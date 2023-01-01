@@ -110,7 +110,7 @@ const ChannelList = (props) => {
           </>
         ) : (
           <>
-            <p>Create your first channel here</p>
+            <p>Create your first channel</p>
             <button
               className="btn btn-primary"
               type="button"

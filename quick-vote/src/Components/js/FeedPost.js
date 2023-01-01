@@ -1,4 +1,4 @@
-import { useContext, useState } from "react";
+import { useContext, useRef, useState } from "react";
 import { WalletContext } from "../../Context/WalletProvider";
 import useOrbisClient from "../../hooks/useOrbisClient";
 import "../css/FeedPost.css";
@@ -12,6 +12,85 @@ const FeedPost = (props) => {
   const hookOrbisClient = useOrbisClient();
 
   const [sidebarOpen, setSidebarOpen] = useState(false);
+  const groupName = useRef();
+  const groupDescription = useRef();
+
+  const setupGroupModal = () => {
+    return (
+      <div
+        className="modal fade"
+        id="groupSetup"
+        tabIndex="-1"
+        aria-labelledby="groupSetupLabel"
+        data-bs-backdrop="static"
+        aria-hidden="true"
+      >
+        <div className="modal-dialog">
+          <div className="modal-content">
+            <div className="modal-header">
+              <h1 className="modal-title fs-5" id="groupSetupLabel">
+                Setup Group
+              </h1>
+              <button
+                type="button"
+                className="btn-close"
+                data-bs-dismiss="modal"
+                aria-label="Close"
+              />
+            </div>
+            <div className="modal-body">
+              <div className="text-start">
+                <div className="mb-3">
+                  <label htmlFor="groupName" className="form-label">
+                    Name
+                  </label>
+                  <input
+                    type="text"
+                    className="form-control"
+                    id="groupName"
+                    placeholder="gaming"
+                    ref={groupName}
+                  />
+                </div>
+                <div className="mb-3">
+                  <label htmlFor="groupDescription" className="form-label">
+                    About
+                  </label>
+                  <textarea
+                    className="form-control"
+                    id="groupDescription"
+                    rows="3"
+                    ref={groupDescription}
+                  />
+                </div>
+              </div>
+            </div>
+            <div className="modal-footer">
+              <button
+                type="button"
+                className="btn btn-secondary"
+                data-bs-dismiss="modal"
+              >
+                Close
+              </button>
+              <button
+                type="button"
+                className="btn btn-primary"
+                onClick={() =>
+                  props.hookOrbisClient.setUpGroup(
+                    groupName.current?.value,
+                    groupDescription.current?.value
+                  )
+                }
+              >
+                Create Group
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    );
+  };
 
   const handleViewSidebar = () => {
     setSidebarOpen(!sidebarOpen);
@@ -33,12 +112,54 @@ const FeedPost = (props) => {
             </button>
             <a className="navbar-brand">QV</a>
             {hookOrbisClient.user ? (
-              <button
-                className="btn btn-outline-primary"
-                onClick={hookOrbisClient.disconnectOrbis}
-              >
-                Logout
-              </button>
+              // <button
+              //   className="btn btn-outline-primary"
+              //   onClick={hookOrbisClient.disconnectOrbis}
+              // >
+              //   Logout
+              // </button>
+              <>
+                <div class="dropstart">
+                  <a
+                    class="btn btn-primary-outline dropdown-toggle"
+                    href="#"
+                    role="button"
+                    data-bs-toggle="dropdown"
+                    aria-expanded="false"
+                  >
+                    More
+                  </a>
+
+                  <ul class="dropdown-menu">
+                    <li>
+                      <a class="dropdown-item" href="#">
+                        Action
+                      </a>
+                    </li>
+                    <li>
+                      <a
+                        class="dropdown-item btn btn-primary-outline"
+                        href="#"
+                        role="button"
+                        data-bs-toggle="modal"
+                        data-bs-target="#groupSetup"
+                      >
+                        Create Group
+                      </a>
+                    </li>
+                    <li>
+                      <a
+                        class="dropdown-item"
+                        href="#"
+                        onClick={hookOrbisClient.disconnectOrbis}
+                      >
+                        Logout
+                      </a>
+                    </li>
+                  </ul>
+                </div>
+                {setupGroupModal()}
+              </>
             ) : (
               <button
                 className="btn btn-primary"
