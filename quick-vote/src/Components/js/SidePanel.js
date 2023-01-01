@@ -4,14 +4,14 @@ const SidePanel = (props) => {
   return (
     <>
       <div
-        class="offcanvas offcanvas-start position-absolute"
+        class="offcanvas offcanvas-start"
         tabindex="-1"
         id="offcanvasExample"
         aria-labelledby="offcanvasExampleLabel"
       >
         <div class="offcanvas-header">
           <h5 class="offcanvas-title" id="offcanvasExampleLabel">
-            Offcanvas
+            Groups
           </h5>
           <button
             type="button"
@@ -21,36 +21,29 @@ const SidePanel = (props) => {
           ></button>
         </div>
         <div class="offcanvas-body">
-          <div>
-            Some text as placeholder. In real life you can have the elements you
-            have chosen. Like, text, images, lists, etc.
-          </div>
-          <div class="dropdown mt-3">
-            <button
-              class="btn btn-secondary dropdown-toggle"
-              type="button"
-              data-bs-toggle="dropdown"
-            >
-              Dropdown button
-            </button>
-            <ul class="dropdown-menu">
-              <li>
-                <a class="dropdown-item" href="#">
-                  Action
-                </a>
-              </li>
-              <li>
-                <a class="dropdown-item" href="#">
-                  Another action
-                </a>
-              </li>
-              <li>
-                <a class="dropdown-item" href="#">
-                  Something else here
-                </a>
-              </li>
-            </ul>
-          </div>
+          <ul class="list-group">
+            {props.hookOrbisClient.userGroups.map((group, index) => {
+              return (
+                <>
+                  <li class="list-group-item">
+                    <div class="d-grid gap-2">
+                      <button
+                        key={index}
+                        className="btn btn-primary groupButton mx-2"
+                        onClick={() => {
+                          props.hookOrbisClient.getSelectedGroupData(
+                            group?.group_id
+                          );
+                        }}
+                      >
+                        {group?.group_details?.name}
+                      </button>
+                    </div>
+                  </li>
+                </>
+              );
+            })}
+          </ul>
         </div>
       </div>
     </>

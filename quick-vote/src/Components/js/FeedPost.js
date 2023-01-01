@@ -3,6 +3,7 @@ import { WalletContext } from "../../Context/WalletProvider";
 import useOrbisClient from "../../hooks/useOrbisClient";
 import "../css/FeedPost.css";
 import "../css/Sidebar.css";
+import ChannelList from "./ChannelList";
 import FeedViewArea from "./FeedViewArea";
 import SidePanel from "./SidePanel";
 
@@ -49,7 +50,7 @@ const FeedPost = (props) => {
           </div>
         </nav>
 
-        {/* <Sidebar isOpen={sidebarOpen} /> */}
+        <SidePanel hookOrbisClient={hookOrbisClient} />
 
         {walletContext.isLoading ? (
           <div className="text-center my-5">
@@ -58,9 +59,9 @@ const FeedPost = (props) => {
             </div>
           </div>
         ) : (
-          <div className="row position-relative" id="wrapper">
+          <div className="row" id="wrapper">
             <div className="col-3" id="side-nav">
-              <SidePanel />
+              <ChannelList hookOrbisClient={hookOrbisClient} />
             </div>
             <div className="col-9" id="content-wrapper">
               <FeedViewArea hookOrbisClient={hookOrbisClient} />
