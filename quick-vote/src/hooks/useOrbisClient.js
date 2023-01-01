@@ -9,8 +9,8 @@ const useOrbisClient = () => {
 
   const [user, setUser] = useState();
   const [userGroups, setUserGroups] = useState([]);
-  const [isOrbisLoading, setIsOrbisLoading] = useState();
   const [selectedGroupData, setSelectedGroupData] = useState();
+  const [groupPosts, setGroupPosts] = useState([]);
 
 
   const connectOrbis = async () => {
@@ -67,7 +67,10 @@ const useOrbisClient = () => {
     let groups = await orbis.getProfileGroups(user);
     console.log("The groups belonging to user ", groups);
     if (groups.data) {
-      if (groups.data.length > 0) setUserGroups(groups.data);
+      if (groups.data.length > 0) {
+        setUserGroups(groups.data);
+        setSelectedGroupData(groups.data[0]);
+      }
       else {
         console.log("The user has no associated groups");
       }
@@ -152,6 +155,19 @@ const useOrbisClient = () => {
     }
   };
 
+  const getFeedPosts = async(groupId) => {
+    let options = {
+      context: groupId
+    }
+    let {data, error} = await orbis.getPosts(options)
+    if (data) {
+      console.log("Got the posts data ", data);
+      setGroupPosts(data);
+    } else {
+      console.log("Error in fetching posts ", error);
+    }
+  }
+
   return {
     user: user,
     connectOrbis: connectOrbis,
@@ -162,7 +178,9 @@ const useOrbisClient = () => {
     userGroups: userGroups,
     getSelectedGroupData: getSelectedGroupData,
     selectedGroupData: selectedGroupData,
-    sendFeedPost: sendFeedPost
+    sendFeedPost: sendFeedPost,
+    getFeedPosts: getFeedPosts,
+    groupPosts: groupPosts
   };
 };
 export default useOrbisClient;
